@@ -1,0 +1,39 @@
+{{ priceFilter | json }}
+
+<!-- <h1>Welcome to {{hotelName}}</h1> -->
+<app-header></app-header>
+<div [hidden]="hideRooms">
+	Number of rooms:
+	<div [innerText]="numberOfRooms"></div>
+</div>
+<h1>{{ getError$ | async }}</h1>
+<!-- {{roomList | json}} -->
+<div *ngIf="selectedRoom">{{ selectedRoom | json }}</div>
+
+<div>
+	<button routerLink="add">Add Room</button>
+</div>
+
+<div>
+	<input
+		type="number"
+		class="form-control"
+		placeholder="Price"
+		[formControl]="priceFilter"
+	/>
+</div>
+
+<div class="table" *ngIf="rooms$ | async as rooms">
+	<app-rooms-list
+		[rooms]="rooms"
+		[price]="priceFilter.value"
+		[title]="title"
+		(roomSelected)="selectRoom($event)"
+	></app-rooms-list>
+</div>
+
+<button (click)="toggle()">Toogle</button>
+
+<h1>{{ totalBytes }} loaded</h1>
+
+<router-outlet></router-outlet>
